@@ -1,0 +1,170 @@
+﻿<Window
+    x:Class="lab4_18.Pages.Search"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Search"
+    Width="860"
+    Height="640"
+    WindowStartupLocation="CenterScreen" >
+
+    <Window.Resources>
+        <ResourceDictionary Source="../styles.xaml" />
+    </Window.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- Header -->
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>  <!-- Search card -->
+            <RowDefinition Height="16"/>
+            <RowDefinition Height="*"/>     <!-- Results card -->
+        </Grid.RowDefinitions>
+
+        <!-- ===== Header ===== -->
+        <DockPanel Grid.Row="0" LastChildFill="False">
+            <StackPanel Orientation="Vertical" DockPanel.Dock="Left">
+                <TextBlock Text="Пошук студентів"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextPrimaryBrush}"/>
+                <TextBlock Text="Виберіть критерій і виконайте пошук"
+                           Margin="0,4,0,0"
+                           Foreground="{StaticResource TextSecondaryBrush}"/>
+            </StackPanel>
+
+            <Button Content="Close"
+                    Click="Close"
+                    Height="36"
+                    Width="90"
+                    DockPanel.Dock="Right"/>
+        </DockPanel>
+
+        <!-- ===== Search form card ===== -->
+        <Border Grid.Row="2"
+                Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource SurfaceStrokeBrush}"
+                BorderThickness="1"
+                Padding="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="24" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- By Name -->
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Ім'я:"
+                               Style="{StaticResource LabelStyle}"
+                               Margin="0,0,0,4"/>
+                    <TextBox x:Name="NameSearchBox"
+                             Height="36"
+                             Padding="10,6"
+                             Margin="0,0,0,8"/>
+                    <Button Content="Шукати за ім'ям"
+                            Height="36"
+                            Click="SearchByName_Click"/>
+                </StackPanel>
+
+                <!-- By Specialty -->
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Спеціальність:"
+                               Style="{StaticResource LabelStyle}"
+                               Margin="0,0,0,4"/>
+                    <TextBox x:Name="SpecialtySearchBox"
+                             Height="36"
+                             Padding="10,6"
+                             Margin="0,0,0,8"/>
+                    <Button Content="Шукати за спеціальністю"
+                            Height="36"
+                            Click="SearchBySpecialty_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ===== Results card ===== -->
+        <Border Grid.Row="4"
+                Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource SurfaceStrokeBrush}"
+                BorderThickness="1"
+                Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/> <!-- caption -->
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="*"/>   <!-- list -->
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Результати пошуку"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource TextPrimaryBrush}"/>
+
+                <ListBox Grid.Row="2"
+                         x:Name="ResultsListBox"
+                         BorderThickness="0"
+                         Background="{StaticResource SurfaceBrush}"
+                         AlternationCount="2">
+
+                    <!-- Hover/Selected styling with theme brushes -->
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="8,6"/>
+                            <Setter Property="Margin" Value="0,0,0,4"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource SurfaceStrokeBrush}"/>
+                            <Setter Property="Background" Value="{StaticResource SurfaceBrush}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <!-- zebra -->
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                    <Setter Property="Background" Value="{StaticResource SurfaceAltBrush}"/>
+                                </Trigger>
+                                <!-- hover -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryHoverBrush}"/>
+                                </Trigger>
+                                <!-- selected -->
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource OnPrimaryBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel LastChildFill="False">
+                                <StackPanel DockPanel.Dock="Left"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Center"
+                                            Margin="0,0,8,0">
+                                    <TextBlock Text="{Binding Name}"
+                                               Width="220"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="{Binding Rating}"
+                                               Width="80"
+                                               VerticalAlignment="Center"
+                                               Foreground="{StaticResource TextSecondaryBrush}"/>
+                                </StackPanel>
+
+                                <Button Content="Деталі"
+                                        Click="ShowDetails_Click"
+                                        Tag="{Binding}"
+                                        Height="30"
+                                        Width="120"
+                                        DockPanel.Dock="Right"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
