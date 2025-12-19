@@ -1,0 +1,104 @@
+﻿<Window
+    x:Class="lab4_18.Pages.DetailedInfo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Детальна інформація"
+    Width="520"
+    Height="420"
+    WindowStartupLocation="CenterScreen" >
+
+    <Window.Resources>
+        <ResourceDictionary Source="../styles.xaml" />
+    </Window.Resources>
+
+    <!-- Центруємо «картку» з інформацією -->
+    <Grid Margin="24">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="1"
+                Grid.Row="1"
+                Background="{StaticResource SurfaceBrush}"
+                BorderBrush="{StaticResource SurfaceStrokeBrush}"
+                BorderThickness="1"
+                Padding="24"
+                SnapsToDevicePixels="True">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>   <!-- Header -->
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="Auto"/>   <!-- Info grid -->
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>   <!-- Actions -->
+                </Grid.RowDefinitions>
+
+                <!-- Заголовок картки -->
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Детальна інформація"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}"/>
+                    <TextBlock Text="Персональні дані студента"
+                               Margin="0,4,0,0"
+                               Foreground="{StaticResource TextSecondaryBrush}"/>
+                </StackPanel>
+
+                <!-- Сітка з полями -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Ім'я:"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Style="{StaticResource ValueStyle}" Text="{Binding Name}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Рейтинг:"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource ValueStyle}" Text="{Binding Rating}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Університет:"/>
+                    <TextBlock Grid.Row="4" Grid.Column="2" Style="{StaticResource ValueStyle}" Text="{Binding University}"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Спеціальність:"/>
+                    <TextBlock Grid.Row="6" Grid.Column="2" Style="{StaticResource ValueStyle}" Text="{Binding Specialization}"/>
+
+                    <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource LabelStyle}" Text="Пошта:"/>
+                    <TextBlock Grid.Row="8" Grid.Column="2" Style="{StaticResource ValueStyle}" Text="{Binding Email}"/>
+                </Grid>
+
+                <!-- Дія -->
+                <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="OK"
+                            Width="120"
+                            Height="36"
+                            Click="Close"
+                            IsDefault="True"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
